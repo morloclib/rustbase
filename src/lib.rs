@@ -1,7 +1,7 @@
 use std::ops;
 
 // id :: forall a . a -> a
-pub fn morloc_id<T>(t: T) -> T{
+pub fn morloc_id<T>(t: T) -> T {
     t
 }
 
@@ -10,22 +10,30 @@ pub fn morloc_id<T>(t: T) -> T{
 // ==================================================================
 
 pub fn morloc_add<T, U, V>(t: T, u: U) -> V
-    where T: ops::Add<U, Output=V> {
+where
+    T: ops::Add<U, Output = V>,
+{
     t + u
 }
 
 pub fn morloc_sub<T, U, V>(t: T, u: U) -> V
-    where T: ops::Sub<U, Output=V> {
+where
+    T: ops::Sub<U, Output = V>,
+{
     t - u
 }
 
 pub fn morloc_mul<T, U, V>(t: T, u: U) -> V
-    where T: ops::Mul<U, Output=V> {
+where
+    T: ops::Mul<U, Output = V>,
+{
     t * u
 }
 
 pub fn morloc_div<T, U, V>(t: T, u: U) -> V
-    where T: ops::Div<U, Output=V> {
+where
+    T: ops::Div<U, Output = V>,
+{
     t / u
 }
 
@@ -143,4 +151,3 @@ mod tests {
         assert_eq!([2, 3], *morloc_tail(&v));
     }
 }
-
