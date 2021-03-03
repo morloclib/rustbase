@@ -66,7 +66,7 @@ pub fn morloc_couple<T, U>(f: fn(&T) -> U, t: T) -> (U, T) {
 }
 
 // forall a b c . (b -> c) -> (a, b) -> (a, c)
-pub fn morloc_with_sec<T, U, V>(f: fn(U) -> V, v: (T, U)) -> (T, V) {
+pub fn morloc_with_snd<T, U, V>(f: fn(U) -> V, v: (T, U)) -> (T, V) {
     (v.0, f(v.1))
 }
 
@@ -103,6 +103,48 @@ pub fn morloc_tail<T>(xs: &[T]) -> &[T] {
     &xs[1..]
 }
 
+// forall a . [a] -> a
+pub fn morloc_last<T>(xs: &[T]) -> &T {
+    xs.last().unwrap()
+}
+
+// forall a . [a] -> [a]
+pub fn morloc_init<T>(xs: &[T]) -> &[T] {
+    &xs[..xs.len() - 1]
+}
+
+// forall a . Int -> [a] -> a
+pub fn morloc_get<T, U>(i: T, xs: &[U]) -> &U
+where
+    T: std::slice::SliceIndex<[U], Output=U>
+{
+    xs.get(i).unwrap()
+}
+
+// forall a . Int -> [a] -> [a]
+pub fn morloc_take<T: Clone>(i: i64, xs: &[T]) -> Vec<T> {
+    xs.iter().take(i as usize).cloned().collect()
+}
+
+// forall a . Int -> [a] -> [a]
+pub fn morloc_drop<T: Clone>(i: i64, xs: &[T]) -> Vec<T> {
+    xs.iter().skip(i as usize).cloned().collect()
+}
+
+// forall a . (a -> Bool) -> [a] -> [a]
+pub fn morloc_take_while<T: Clone>(f: fn(&T) -> bool, xs: &[T]) -> Vec<T> {
+    xs.iter().take_while(|v| f(*v)).cloned().collect()
+}
+
+// forall a . (a -> Bool) -> [a] -> [a]
+pub fn morloc_drop_while<T: Clone>(f: fn(&T) -> bool, xs: &[T]) -> Vec<T> {
+    xs.iter().skip_while(|v| f(*v)).cloned().collect()
+}
+
+// ==================================================================
+// Tests
+// ==================================================================
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -130,8 +172,8 @@ mod tests {
     }
 
     #[test]
-    fn test_with_sec() {
-        assert_eq!((2, "hewwo"), morloc_with_sec(|_| "hewwo", (2, 3)));
+    fn test_with_snd() {
+        assert_eq!((2, "hewwo"), morloc_with_snd(|_| "hewwo", (2, 3)));
     }
 
     #[test]
@@ -149,5 +191,47 @@ mod tests {
     fn test_tail() {
         let v = vec![1, 2, 3];
         assert_eq!([2, 3], *morloc_tail(&v));
+    }
+
+    #[test]
+    fn test_last() {
+        let v = vec![1, 2, 3];
+        assert_eq!(3, *morloc_last(&v));
+    }
+
+    #[test]
+    fn test_init() {
+        let v = vec![1, 2, 3];
+        assert_eq!([1, 2], *morloc_init(&v));
+    }
+
+    #[test]
+    fn test_get() {
+        let v = vec![1, 2, 3];
+        assert_eq!(2, *morloc_get(1, &v));
+    }
+
+    #[test]
+    fn test_take() {
+        let v = vec![1, 2, 3, 4, 5];
+        assert_eq!(vec![1, 2, 3], morloc_take(3, &v));
+    }
+
+    #[test]
+    fn test_drop() {
+        let v = vec![1, 2, 3, 4, 5];
+        assert_eq!(vec![4, 5], morloc_drop(3, &v));
+    }
+
+    #[test]
+    fn test_take_while() {
+        let v = vec![1, 2, 3, 4, 5];
+        assert_eq!(vec![1, 2, 3], morloc_take_while(|v| *v <= 3, &v));
+    }
+
+    #[test]
+    fn test_drop_while() {
+        let v = vec![1, 2, 3, 4, 5];
+        assert_eq!(vec![4, 5], morloc_drop_while(|v| *v <= 3, &v));
     }
 }
