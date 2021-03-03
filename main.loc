@@ -10,18 +10,51 @@ export Int
 export Str
 export Bool
 
+export id
+export add
+export sub
+export mul
+export div
+export mod
+
 export head
+export tail
 
 source Cpp from "src/lib.rs" (
+      "morloc_id" as id
+    -- arithmetic
+    , "morloc_add" as add
+    , "morloc_sub" as sub
+    , "morloc_mul" as mul
+    , "morloc_div" as div
+    , "morloc_mod" as mod
     -- list stuff
-      "morloc_head" as head
+    , "morloc_head" as head
     , "morloc_tail" as tail
 )
 
+id :: a -> a;
+id Cpp :: a -> a;
+
+add :: Num -> Num -> Num;
+add Cpp :: "f64" -> "f64" -> "f64";
+
+sub :: Num -> Num -> Num;
+sub Cpp :: "f64" -> "f64" -> "f64";
+
+mul :: Num -> Num -> Num;
+mul Cpp :: "f64" -> "f64" -> "f64";
+
+div :: Num -> Num -> Num;
+div Cpp :: "f64" -> "f64" -> "f64";
+
+mod :: Int -> Int -> Int;
+mod Cpp :: "i64" -> "i64" -> "i64";
+
 head :: [a] -> a;
-head Cpp :: "&[$1]" "T" -> "&T";
+head Cpp :: "&[$1]" a -> a;
 
 tail :: [a] -> [a];
-tail Cpp :: "&[$1]" "T" -> "&[$1]" "T"
+tail Cpp :: "&[$1]" a -> "&[$1]" a;
 
 }

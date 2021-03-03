@@ -1,3 +1,33 @@
+use std::ops;
+
+pub fn morloc_id<T>(t: T) -> T{
+    t
+}
+
+pub fn morloc_add<T, U, V>(t: T, u: U) -> V
+    where T: ops::Add<U, Output=V> {
+    t + u
+}
+
+pub fn morloc_sub<T, U, V>(t: T, u: U) -> V
+    where T: ops::Sub<U, Output=V> {
+    t - u
+}
+
+pub fn morloc_mul<T, U, V>(t: T, u: U) -> V
+    where T: ops::Mul<U, Output=V> {
+    t * u
+}
+
+pub fn morloc_div<T, U, V>(t: T, u: U) -> V
+    where T: ops::Div<U, Output=V> {
+    t / u
+}
+
+pub fn morloc_mod(a: i64, b: i64) -> i64 {
+    a % b
+}
+
 pub fn morloc_head<T>(xs: &[T]) -> &T {
     &xs[0]
 }
