@@ -79,6 +79,15 @@ pub fn morloc_with_fst<T, U: Clone, V>(f: fn(&T) -> V, v: &(T, U)) -> (V, U) {
 // Higher order functions
 // ==================================================================
 
+// forall a b . [(a, b)] -> ([a], [b])
+pub fn morloc_unzip<T: Clone, U: Clone>(xs: &[(T, U)]) -> (Vec<T>, Vec<U>) {
+    xs.iter().cloned().unzip()
+}
+
+// ==================================================================
+// Higher order functions
+// ==================================================================
+
 // forall a b c . (a -> b -> c) -> [a] -> [b] -> [c]
 pub fn morloc_zip_with<T, U, V>(f: fn(&T, &U) -> V, ts: &[T], us: &[U]) -> Vec<V> {
     ts.iter().zip(us.iter()).map(|v| f(v.0, v.1)).collect()
@@ -87,6 +96,11 @@ pub fn morloc_zip_with<T, U, V>(f: fn(&T, &U) -> V, ts: &[T], us: &[U]) -> Vec<V
 // forall a b . (b -> a -> b) -> b -> [a] -> b
 pub fn morloc_fold<T: Clone, U>(f: fn(&T, &U) -> T, t: &T, us: &[U]) -> T {
     us.iter().fold(t.clone(), |t, u| f(&t, u))
+}
+
+// forall a b . (a -> b) -> [a] -> [b]
+pub fn morloc_map<T, U>(f: fn(&T) -> U, xs: &[T]) -> Vec<U> {
+    xs.iter().map(f).collect()
 }
 
 // ==================================================================

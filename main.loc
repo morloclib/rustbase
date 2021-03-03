@@ -25,8 +25,11 @@ export couple
 export with_sec
 export with_fst
 
-export zipWith
+export unzip
+
+export zip_with
 export fold
+export map
 
 export head
 export tail
@@ -49,9 +52,13 @@ source Cpp from "src/lib.rs" (
     , "with_snd" as with_snd
     , "with_fst" as with_fst
 
+    -- map functions
+    , "morloc_unzip" as unzip
+
     -- higher order functions
     , "morloc_zip_with" as zip_with
     , "morloc_fold" as fold
+    , "morloc_map" as map
 
     -- lists
     , "morloc_head" as head
@@ -103,22 +110,39 @@ couple     :: (a -> b) -> a -> (b, a);
 couple Cpp :: (a -> b) -> a -> "($1, $2)" b a;
 
 with_snd     :: (b -> c) -> (a, b) -> (a, c);
-with_snd Cpp :: (b -> c) -> "($1, $2)" a b
+with_snd Cpp :: (b -> c) -> "&($1, $2)" a b
                          -> "($1, $2)" a c;
 
 with_fst     :: (a -> c) -> (a, b) -> (c, b);
-with_fst Cpp :: (a -> c) -> "($1, $2)" a b
+with_fst Cpp :: (a -> c) -> "&($1, $2)" a b
                          -> "($1, $2)" c b;
+
+-- map functions
+-- zip :: [a] -> [b] -> [(a, b)];
+-- zip xs ys = zip_with tuple xs ys;
+
+unzip     :: [(a, b)] -> ([a], [b]);
+unzip Cpp :: "&[($1, $2)]" a b -> "(Vec<$1>, Vec<$2>)" a b;
+
+-- keys :: [(a, b)] -> [a];
+-- keys xs = map fst xs;
+
+-- vals :: [(a, b)] -> [b];
+-- vals xs = map snd xs;
+
 
 
 -- higher order functions
 zip_with     :: (a -> b -> c) -> [a] -> [b] -> [c];
 zip_with Cpp :: (a -> b -> c) -> "&[$1]" a
-                             -> "&[$1]" b
-                             -> "Vec<$1>" c;
+                              -> "&[$1]" b
+                              -> "Vec<$1>" c;
 
 fold     :: (b -> a -> b) -> b -> [a] -> b;
 fold Cpp :: (b -> a -> b) -> b -> "Vec<$1>" a -> b;
+
+map     :: (a -> b) -> [a] -> [b];
+map Cpp :: (a -> b) -> "&[$1]" a -> "Vec<$1>" b;
 
 
 -- lists
