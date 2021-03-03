@@ -54,11 +54,14 @@ source Cpp from "src/lib.rs" (
 
     -- map functions
     , "morloc_unzip" as unzip
+    , "morloc_filter_key" as filter_key
+    , "morloc_filter_val" as filter_val
 
     -- higher order functions
     , "morloc_zip_with" as zip_with
     , "morloc_fold" as fold
     , "morloc_map" as map
+    , "morloc_filter" as filter
 
     -- lists
     , "morloc_head" as head
@@ -130,7 +133,12 @@ unzip Cpp :: "&[($1, $2)]" a b -> "(Vec<$1>, Vec<$2>)" a b;
 -- vals :: [(a, b)] -> [b];
 -- vals xs = map snd xs;
 
+filter_key     :: (a -> Bool) -> [(a, b)] -> [(a, b)];
+filter_key Cpp :: (a -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b;
 
+
+filter_val     :: (a -> Bool) -> [(a, b)] -> [(a, b)];
+filter_val Cpp :: (b -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b;
 
 -- higher order functions
 zip_with     :: (a -> b -> c) -> [a] -> [b] -> [c];
@@ -143,6 +151,9 @@ fold Cpp :: (b -> a -> b) -> b -> "Vec<$1>" a -> b;
 
 map     :: (a -> b) -> [a] -> [b];
 map Cpp :: (a -> b) -> "&[$1]" a -> "Vec<$1>" b;
+
+filter     :: (a -> Bool) -> [a] -> [a];
+filter Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a;
 
 
 -- lists

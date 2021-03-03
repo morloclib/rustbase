@@ -76,12 +76,22 @@ pub fn morloc_with_fst<T, U: Clone, V>(f: fn(&T) -> V, v: &(T, U)) -> (V, U) {
 }
 
 // ==================================================================
-// Higher order functions
+// Map functions
 // ==================================================================
 
 // forall a b . [(a, b)] -> ([a], [b])
 pub fn morloc_unzip<T: Clone, U: Clone>(xs: &[(T, U)]) -> (Vec<T>, Vec<U>) {
     xs.iter().cloned().unzip()
+}
+
+// forall a b . (a -> Bool) -> [(a, b)] -> [(a, b)]
+pub fn morloc_filter_key<T: Clone, U: Clone>(f: fn(&T) -> bool, xs: &[(T, U)]) -> Vec<(T, U)> {
+    xs.iter().filter(|v| f(&v.0)).cloned().collect()
+}
+
+// forall a b . (b -> Bool) -> [(a, b)] -> [(a, b)]
+pub fn morloc_filter_val<T: Clone, U: Clone>(f: fn(&U) -> bool, xs: &[(T, U)]) -> Vec<(T, U)> {
+    xs.iter().filter(|v| f(&v.1)).cloned().collect()
 }
 
 // ==================================================================
@@ -101,6 +111,11 @@ pub fn morloc_fold<T: Clone, U>(f: fn(&T, &U) -> T, t: &T, us: &[U]) -> T {
 // forall a b . (a -> b) -> [a] -> [b]
 pub fn morloc_map<T, U>(f: fn(&T) -> U, xs: &[T]) -> Vec<U> {
     xs.iter().map(f).collect()
+}
+
+// forall a . (a -> Bool) -> [a] -> [a]
+pub fn morloc_filter<T: Clone>(f: fn(&T) -> bool, xs: &[T]) -> Vec<T> {
+    xs.iter().filter(|v| f(*v)).cloned().collect()
 }
 
 // ==================================================================
