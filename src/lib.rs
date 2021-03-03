@@ -100,6 +100,38 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_fst() {
+        let v = (2, "hewwo");
+        assert_eq!(2, *morloc_fst(&v));
+    }
+
+    #[test]
+    fn test_snd() {
+        let v = (2, "hewwo");
+        assert_eq!("hewwo", *morloc_snd(&v));
+    }
+
+    #[test]
+    fn test_tuple() {
+        assert_eq!((2, "hewwo"), morloc_tuple(2, "hewwo"));
+    }
+
+    #[test]
+    fn test_couple() {
+        assert_eq!(("hewwo", 2), morloc_couple(|_| "hewwo", 2));
+    }
+
+    #[test]
+    fn test_with_sec() {
+        assert_eq!((2, "hewwo"), morloc_with_sec(|_| "hewwo", (2, 3)));
+    }
+
+    #[test]
+    fn test_with_fst() {
+        assert_eq!(("hewwo", 3), morloc_with_fst(|_| "hewwo", (2, 3)));
+    }
+
+    #[test]
     fn test_head() {
         let v = vec![1, 2, 3];
         assert_eq!(1, *morloc_head(&v));
