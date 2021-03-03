@@ -181,4 +181,17 @@ take_while Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a;
 drop_while     :: (a -> Bool) -> [a] -> [a];
 drop_while Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a;
 
+source Cpp from "src/data.rs" (
+      "morloc_pack_map" as pack_map
+    , "morloc_unpack_map" as unpack_map
+)
+
+type Cpp (Map key val) = "std::collections::HashMap<$1, $2>" key val;
+
+pack_map     :: pack => ([key], [val]) -> Map key val;
+pack_map Cpp :: pack => ([key], [val]) -> "std::collections::HashMap<$1, $2>" key val;
+
+unpack_map     :: unpack => Map key val -> ([key], [val]);
+unpack_map Cpp :: unpack => "std::collections::HashMap<$1, $2>" key val -> ([key], [val]);
+
 }
