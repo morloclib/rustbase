@@ -1,0 +1,12 @@
+name: rustbase
+version: 0.0.0
+homepage: https://github.com/morloc-lib/rustbase
+synopsis: Core types and functions for Rust
+description: This is totally experimental
+category: language-base
+license: MIT
+author: "Laura Gallo"
+maintainer: "zbwrnz@gmail.com"
+github: https://github.com/morloc-lib/rustbase
+bug-reports: https://github.com/morloc-lib/rustbase
+

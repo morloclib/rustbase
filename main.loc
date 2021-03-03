@@ -1,0 +1,23 @@
+module rustbase {
+
+type Rust Num = "f64";
+type Rust Int = "i64";
+type Rust Str = "String";
+type Rust Bool = "bool";
+
+export Num
+export Int
+export Str
+export Bool
+
+export head
+
+source Rust from "src/lib.rs" (
+    -- list stuff
+    "morloc_head" as head
+)
+
+head :: [a] -> a;
+head Rust :: "Vec<T>" -> "T";
+
+}
