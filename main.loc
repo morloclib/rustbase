@@ -22,12 +22,22 @@ export tail
 
 source Cpp from "src/lib.rs" (
       "morloc_id" as id
+
     -- arithmetic
     , "morloc_add" as add
     , "morloc_sub" as sub
     , "morloc_mul" as mul
     , "morloc_div" as div
     , "morloc_mod" as mod
+
+    -- tuples
+    , "morloc_fst" as fst
+    , "morloc_snd" as snd
+    , "morloc_tuple" as tuple
+    , "morloc_couple" as couple
+    , "with_sec" as with_sec
+    , "with_fst" as with_fst
+
     -- list stuff
     , "morloc_head" as head
     , "morloc_tail" as tail
@@ -36,21 +46,42 @@ source Cpp from "src/lib.rs" (
 id :: a -> a;
 id Cpp :: a -> a;
 
-add :: Num -> Num -> Num;
+-- arithmetic
+add     :: Num -> Num -> Num;
 add Cpp :: "f64" -> "f64" -> "f64";
 
-sub :: Num -> Num -> Num;
+subi    :: Num -> Num -> Num;
 sub Cpp :: "f64" -> "f64" -> "f64";
 
-mul :: Num -> Num -> Num;
+mul     :: Num -> Num -> Num;
 mul Cpp :: "f64" -> "f64" -> "f64";
 
-div :: Num -> Num -> Num;
+div     :: Num -> Num -> Num;
 div Cpp :: "f64" -> "f64" -> "f64";
 
-mod :: Int -> Int -> Int;
+mod     :: Int -> Int -> Int;
 mod Cpp :: "i64" -> "i64" -> "i64";
 
+-- tuple functions
+fst     :: (a, b) -> a;
+fst Cpp :: (a, b) -> a;
+
+snd     :: (a, b) -> b;
+snd Cpp :: (a, b) -> b;
+
+tuple     :: a -> b -> (a, b);
+tuple Cpp :: a -> b -> (a, b);
+
+couple     :: (a -> b) -> a -> (b, a);
+couple Cpp :: (a -> b) -> a -> (b, a);
+
+with_sec     :: (b -> c) -> (a, b) -> (a, c);
+with_sec Cpp :: (b -> c) -> (a, b) -> (a, c);
+
+with_fst     :: (a -> c) -> (a, b) -> (c, b);
+with_fst Cpp :: (a -> c) -> (a, b) -> (c, b);
+
+-- lists
 head :: [a] -> a;
 head Cpp :: "&[$1]" a -> a;
 
