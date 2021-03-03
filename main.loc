@@ -1,9 +1,9 @@
 module rustbase {
 
-type Rust Num = "f64";
-type Rust Int = "i64";
-type Rust Str = "String";
-type Rust Bool = "bool";
+type Cpp Num = "f64";
+type Cpp Int = "i64";
+type Cpp Str = "String";
+type Cpp Bool = "bool";
 
 export Num
 export Int
@@ -12,12 +12,12 @@ export Bool
 
 export head
 
-source Rust from "src/lib.rs" (
+source Cpp from "src/lib.rs" (
     -- list stuff
     "morloc_head" as head
 )
 
 head :: [a] -> a;
-head Rust :: "Vec<T>" -> "T";
+head Cpp :: "Vec<$1>" "T" -> "T";
 
 }
