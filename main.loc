@@ -11,11 +11,22 @@ export Str
 export Bool
 
 export id
+
 export add
 export sub
 export mul
 export div
 export mod
+
+export fst
+export snd
+export tupl
+export couple
+export with_sec
+export with_fst
+
+export zipWith
+export fold
 
 export head
 export tail
@@ -38,7 +49,11 @@ source Cpp from "src/lib.rs" (
     , "with_sec" as with_sec
     , "with_fst" as with_fst
 
-    -- list stuff
+    -- higher order functions
+    , "morloc_zip_with" as zipWith
+    , "morloc_fold" as fold
+
+    -- lists
     , "morloc_head" as head
     , "morloc_tail" as tail
 )
@@ -46,21 +61,27 @@ source Cpp from "src/lib.rs" (
 id :: a -> a;
 id Cpp :: a -> a;
 
+
 -- arithmetic
+-- add :: (Num a) => a -> a -> a
 add     :: Num -> Num -> Num;
 add Cpp :: "f64" -> "f64" -> "f64";
 
-subi    :: Num -> Num -> Num;
+-- sub :: (Num a) => a -> a -> a
+sub    :: Num -> Num -> Num;
 sub Cpp :: "f64" -> "f64" -> "f64";
 
+-- mul :: (Num a) => a -> a -> a
 mul     :: Num -> Num -> Num;
 mul Cpp :: "f64" -> "f64" -> "f64";
 
+-- div :: (Num a) => a -> a -> a
 div     :: Num -> Num -> Num;
 div Cpp :: "f64" -> "f64" -> "f64";
 
 mod     :: Int -> Int -> Int;
 mod Cpp :: "i64" -> "i64" -> "i64";
+
 
 -- tuple functions
 fst     :: (a, b) -> a;
@@ -80,6 +101,17 @@ with_sec Cpp :: (b -> c) -> (a, b) -> (a, c);
 
 with_fst     :: (a -> c) -> (a, b) -> (c, b);
 with_fst Cpp :: (a -> c) -> (a, b) -> (c, b);
+
+
+-- higher order functions
+zipWith     :: (a -> b -> c) -> [a] -> [b] -> [c];
+zipWith Cpp :: (a -> b -> c) -> "Vec<$1>" a
+                             -> "Vec<$1>" b
+                             -> "Vec<$1>" c;
+
+fold     :: (b -> a -> b) -> b -> [a] -> b;
+fold Cpp :: (b -> a -> b) -> b -> "Vec<$1>" a -> b;
+
 
 -- lists
 head :: [a] -> a;
