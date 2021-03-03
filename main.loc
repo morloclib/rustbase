@@ -14,10 +14,14 @@ export head
 
 source Cpp from "src/lib.rs" (
     -- list stuff
-    "morloc_head" as head
+      "morloc_head" as head
+    , "morloc_tail" as tail
 )
 
 head :: [a] -> a;
-head Cpp :: "Vec<$1>" "T" -> "T";
+head Cpp :: "&[$1]" "T" -> "&T";
+
+tail :: [a] -> [a];
+tail Cpp :: "&[$1]" "T" -> "&[$1]" "T"
 
 }
