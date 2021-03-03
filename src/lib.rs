@@ -116,8 +116,8 @@ pub fn morloc_init<T: Clone>(xs: &[T]) -> Vec<T> {
 // forall a . Int -> [a] -> a
 pub fn morloc_get<T, U>(i: T, xs: &[U]) -> U
 where
-    T: std::slice::SliceIndex<[U], Output=U>,
-    U: Clone
+    T: std::slice::SliceIndex<[U], Output = U>,
+    U: Clone,
 {
     xs.get(i).unwrap().clone()
 }
@@ -164,7 +164,10 @@ mod tests {
 
     #[test]
     fn test_tuple() {
-        assert_eq!((2, String::from("hewwo")), morloc_tuple(&2, &String::from("hewwo")));
+        assert_eq!(
+            (2, String::from("hewwo")),
+            morloc_tuple(&2, &String::from("hewwo"))
+        );
     }
 
     #[test]
