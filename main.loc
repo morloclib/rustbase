@@ -1,9 +1,9 @@
-module rustbase {
+module rustbase
 
-type Cpp Num = "f64";
-type Cpp Int = "i64";
-type Cpp Str = "String";
-type Cpp Bool = "bool";
+type Cpp Num = "f64"
+type Cpp Int = "i64"
+type Cpp Str = "String"
+type Cpp Bool = "bool"
 
 export Num
 export Int
@@ -34,164 +34,162 @@ export map
 export head
 export tail
 
-source Cpp from "src/lib.rs" (
-      "morloc_id" as id
+source Cpp from "src/lib.rs"
+  ( "morloc_id" as id
 
-    -- arithmetic
-    , "morloc_add" as add
-    , "morloc_sub" as sub
-    , "morloc_mul" as mul
-    , "morloc_div" as div
-    , "morloc_mod" as mod
+  -- arithmetic
+  , "morloc_add" as add
+  , "morloc_sub" as sub
+  , "morloc_mul" as mul
+  , "morloc_div" as div
+  , "morloc_mod" as mod
 
-    -- tuples
-    , "morloc_fst" as fst
-    , "morloc_snd" as snd
-    , "morloc_tuple" as tuple
-    , "morloc_couple" as couple
-    , "with_snd" as with_snd
-    , "with_fst" as with_fst
+  -- tuples
+  , "morloc_fst" as fst
+  , "morloc_snd" as snd
+  , "morloc_tuple" as tuple
+  , "morloc_couple" as couple
+  , "with_snd" as with_snd
+  , "with_fst" as with_fst
 
-    -- map functions
-    , "morloc_unzip" as unzip
-    , "morloc_filter_key" as filter_key
-    , "morloc_filter_val" as filter_val
+  -- map functions
+  , "morloc_unzip" as unzip
+  , "morloc_filter_key" as filter_key
+  , "morloc_filter_val" as filter_val
 
-    -- higher order functions
-    , "morloc_zip_with" as zip_with
-    , "morloc_fold" as fold
-    , "morloc_map" as map
-    , "morloc_filter" as filter
+  -- higher order functions
+  , "morloc_zip_with" as zip_with
+  , "morloc_fold" as fold
+  , "morloc_map" as map
+  , "morloc_filter" as filter
 
-    -- lists
-    , "morloc_head" as head
-    , "morloc_tail" as tail
-    , "morloc_last" as last
-    , "morloc_init" as init
-    , "morloc_take" as take
-    , "morloc_drop" as drop
-    , "morloc_take_while" as take_while
-    , "morloc_drop_while" as drop_while
-)
+  -- lists
+  , "morloc_head" as head
+  , "morloc_tail" as tail
+  , "morloc_last" as last
+  , "morloc_init" as init
+  , "morloc_take" as take
+  , "morloc_drop" as drop
+  , "morloc_take_while" as take_while
+  , "morloc_drop_while" as drop_while
+  )
 
-id     :: a -> a;
-id Cpp :: a -> a;
+id     :: a -> a
+id Cpp :: a -> a
 
 
 -- arithmetic
 -- add  :: (Num a) => a -> a -> a
-add     :: Num -> Num -> Num;
-add Cpp :: "f64" -> "f64" -> "f64";
+add     :: Num -> Num -> Num
+add Cpp :: "f64" -> "f64" -> "f64"
 
 -- sub  :: (Num a) => a -> a -> a
-sub     :: Num -> Num -> Num;
-sub Cpp :: "f64" -> "f64" -> "f64";
+sub     :: Num -> Num -> Num
+sub Cpp :: "f64" -> "f64" -> "f64"
 
 -- mul  :: (Num a) => a -> a -> a
-mul     :: Num -> Num -> Num;
-mul Cpp :: "f64" -> "f64" -> "f64";
+mul     :: Num -> Num -> Num
+mul Cpp :: "f64" -> "f64" -> "f64"
 
 -- div  :: (Num a) => a -> a -> a
-div     :: Num -> Num -> Num;
-div Cpp :: "f64" -> "f64" -> "f64";
+div     :: Num -> Num -> Num
+div Cpp :: "f64" -> "f64" -> "f64"
 
-mod     :: Int -> Int -> Int;
-mod Cpp :: "i64" -> "i64" -> "i64";
+mod     :: Int -> Int -> Int
+mod Cpp :: "i64" -> "i64" -> "i64"
 
 
 -- tuple functions
-fst     :: (a, b) -> a;
-fst Cpp :: "&($1, $2)" a b -> "&$1" a;
+fst     :: (a, b) -> a
+fst Cpp :: "&($1, $2)" a b -> "&$1" a
 
-snd     :: (a, b) -> b;
-snd Cpp :: "&($1, $2)" a b -> "&$1" b;
+snd     :: (a, b) -> b
+snd Cpp :: "&($1, $2)" a b -> "&$1" b
 
-tuple     :: a -> b -> (a, b);
-tuple Cpp :: a -> b -> "($1, $2)" a b;
+tuple     :: a -> b -> (a, b)
+tuple Cpp :: a -> b -> "($1, $2)" a b
 
-couple     :: (a -> b) -> a -> (b, a);
-couple Cpp :: (a -> b) -> a -> "($1, $2)" b a;
+couple     :: (a -> b) -> a -> (b, a)
+couple Cpp :: (a -> b) -> a -> "($1, $2)" b a
 
-with_snd     :: (b -> c) -> (a, b) -> (a, c);
+with_snd     :: (b -> c) -> (a, b) -> (a, c)
 with_snd Cpp :: (b -> c) -> "&($1, $2)" a b
-                         -> "($1, $2)" a c;
+                         -> "($1, $2)" a c
 
-with_fst     :: (a -> c) -> (a, b) -> (c, b);
+with_fst     :: (a -> c) -> (a, b) -> (c, b)
 with_fst Cpp :: (a -> c) -> "&($1, $2)" a b
-                         -> "($1, $2)" c b;
+                         -> "($1, $2)" c b
 
 -- map functions
--- zip :: [a] -> [b] -> [(a, b)];
--- zip xs ys = zip_with tuple xs ys;
+-- zip :: [a] -> [b] -> [(a, b)]
+-- zip xs ys = zip_with tuple xs ys
 
-unzip     :: [(a, b)] -> ([a], [b]);
-unzip Cpp :: "&[($1, $2)]" a b -> "(Vec<$1>, Vec<$2>)" a b;
+unzip     :: [(a, b)] -> ([a], [b])
+unzip Cpp :: "&[($1, $2)]" a b -> "(Vec<$1>, Vec<$2>)" a b
 
--- keys :: [(a, b)] -> [a];
--- keys xs = map fst xs;
+-- keys :: [(a, b)] -> [a]
+-- keys xs = map fst xs
 
--- vals :: [(a, b)] -> [b];
--- vals xs = map snd xs;
+-- vals :: [(a, b)] -> [b]
+-- vals xs = map snd xs
 
-filter_key     :: (a -> Bool) -> [(a, b)] -> [(a, b)];
-filter_key Cpp :: (a -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b;
+filter_key     :: (a -> Bool) -> [(a, b)] -> [(a, b)]
+filter_key Cpp :: (a -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b
 
 
-filter_val     :: (a -> Bool) -> [(a, b)] -> [(a, b)];
-filter_val Cpp :: (b -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b;
+filter_val     :: (a -> Bool) -> [(a, b)] -> [(a, b)]
+filter_val Cpp :: (b -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b
 
 -- higher order functions
-zip_with     :: (a -> b -> c) -> [a] -> [b] -> [c];
+zip_with     :: (a -> b -> c) -> [a] -> [b] -> [c]
 zip_with Cpp :: (a -> b -> c) -> "&[$1]" a
                               -> "&[$1]" b
-                              -> "Vec<$1>" c;
+                              -> "Vec<$1>" c
 
-fold     :: (b -> a -> b) -> b -> [a] -> b;
-fold Cpp :: (b -> a -> b) -> b -> "Vec<$1>" a -> b;
+fold     :: (b -> a -> b) -> b -> [a] -> b
+fold Cpp :: (b -> a -> b) -> b -> "Vec<$1>" a -> b
 
-map     :: (a -> b) -> [a] -> [b];
-map Cpp :: (a -> b) -> "&[$1]" a -> "Vec<$1>" b;
+map     :: (a -> b) -> [a] -> [b]
+map Cpp :: (a -> b) -> "&[$1]" a -> "Vec<$1>" b
 
-filter     :: (a -> Bool) -> [a] -> [a];
-filter Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a;
+filter     :: (a -> Bool) -> [a] -> [a]
+filter Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
 
 
 -- lists
-head     :: [a] -> a;
-head Cpp :: "&[$1]" a -> a;
+head     :: [a] -> a
+head Cpp :: "&[$1]" a -> a
 
-tail     :: [a] -> [a];
-tail Cpp :: "&[$1]" a -> "&[$1]" a;
+tail     :: [a] -> [a]
+tail Cpp :: "&[$1]" a -> "&[$1]" a
 
-last     :: [a] -> a;
-last Cpp :: "&[$1]" a -> a;
+last     :: [a] -> a
+last Cpp :: "&[$1]" a -> a
 
-init     :: [a] -> a;
-init Cpp :: "&[$1]" a -> "&[$1]" a;
+init     :: [a] -> a
+init Cpp :: "&[$1]" a -> "&[$1]" a
 
-take     :: [a] -> [a];
-take Cpp :: "&[$1]" a -> "Vec<$1>" a;
+take     :: [a] -> [a]
+take Cpp :: "&[$1]" a -> "Vec<$1>" a
 
-drop     :: [a] -> [a];
-drop Cpp :: "&[$1]" a -> "Vec<$1>" a;
+drop     :: [a] -> [a]
+drop Cpp :: "&[$1]" a -> "Vec<$1>" a
 
-take_while     :: (a -> Bool) -> [a] -> [a];
-take_while Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a;
+take_while     :: (a -> Bool) -> [a] -> [a]
+take_while Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
 
-drop_while     :: (a -> Bool) -> [a] -> [a];
-drop_while Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a;
+drop_while     :: (a -> Bool) -> [a] -> [a]
+drop_while Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
 
-source Cpp from "src/data.rs" (
-      "morloc_pack_map" as pack_map
-    , "morloc_unpack_map" as unpack_map
-)
+source Cpp from "src/data.rs"
+  ( "morloc_pack_map" as pack_map
+  , "morloc_unpack_map" as unpack_map
+  )
 
-type Cpp (Map key val) = "std::collections::HashMap<$1, $2>" key val;
+type Cpp (Map key val) = "std::collections::HashMap<$1, $2>" key val
 
-pack_map     :: pack => ([key], [val]) -> Map key val;
-pack_map Cpp :: pack => ([key], [val]) -> "std::collections::HashMap<$1, $2>" key val;
+pack_map     :: pack => ([key], [val]) -> Map key val
+pack_map Cpp :: pack => ([key], [val]) -> "std::collections::HashMap<$1, $2>" key val
 
-unpack_map     :: unpack => Map key val -> ([key], [val]);
-unpack_map Cpp :: unpack => "std::collections::HashMap<$1, $2>" key val -> ([key], [val]);
-
-}
+unpack_map     :: unpack => Map key val -> ([key], [val])
+unpack_map Cpp :: unpack => "std::collections::HashMap<$1, $2>" key val -> ([key], [val])
