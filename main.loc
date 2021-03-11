@@ -1,9 +1,9 @@
 module rustbase
 
-type Cpp Num = "f64"
-type Cpp Int = "i64"
-type Cpp Str = "String"
-type Cpp Bool = "bool"
+type Rust Num = "f64"
+type Rust Int = "i64"
+type Rust Str = "String"
+type Rust Bool = "bool"
 
 export Num
 export Int
@@ -34,7 +34,7 @@ export map
 export head
 export tail
 
-source Cpp from "src/lib.rs"
+source Rust from "src/lib.rs"
   ( "morloc_id" as id
 
   -- arithmetic
@@ -75,57 +75,57 @@ source Cpp from "src/lib.rs"
   )
 
 id     :: a -> a
-id Cpp :: a -> a
+id Rust :: a -> a
 
 
 -- arithmetic
 -- add  :: (Num a) => a -> a -> a
 add     :: Num -> Num -> Num
-add Cpp :: "f64" -> "f64" -> "f64"
+add Rust :: "f64" -> "f64" -> "f64"
 
 -- sub  :: (Num a) => a -> a -> a
 sub     :: Num -> Num -> Num
-sub Cpp :: "f64" -> "f64" -> "f64"
+sub Rust :: "f64" -> "f64" -> "f64"
 
 -- mul  :: (Num a) => a -> a -> a
 mul     :: Num -> Num -> Num
-mul Cpp :: "f64" -> "f64" -> "f64"
+mul Rust :: "f64" -> "f64" -> "f64"
 
 -- div  :: (Num a) => a -> a -> a
 div     :: Num -> Num -> Num
-div Cpp :: "f64" -> "f64" -> "f64"
+div Rust :: "f64" -> "f64" -> "f64"
 
 mod     :: Int -> Int -> Int
-mod Cpp :: "i64" -> "i64" -> "i64"
+mod Rust :: "i64" -> "i64" -> "i64"
 
 
 -- tuple functions
 fst     :: (a, b) -> a
-fst Cpp :: "&($1, $2)" a b -> "&$1" a
+fst Rust :: "&($1, $2)" a b -> "&$1" a
 
 snd     :: (a, b) -> b
-snd Cpp :: "&($1, $2)" a b -> "&$1" b
+snd Rust :: "&($1, $2)" a b -> "&$1" b
 
 tuple     :: a -> b -> (a, b)
-tuple Cpp :: a -> b -> "($1, $2)" a b
+tuple Rust :: a -> b -> "($1, $2)" a b
 
 couple     :: (a -> b) -> a -> (b, a)
-couple Cpp :: (a -> b) -> a -> "($1, $2)" b a
+couple Rust :: (a -> b) -> a -> "($1, $2)" b a
 
 with_snd     :: (b -> c) -> (a, b) -> (a, c)
-with_snd Cpp :: (b -> c) -> "&($1, $2)" a b
-                         -> "($1, $2)" a c
+with_snd Rust :: (b -> c) -> "&($1, $2)" a b
+                          -> "($1, $2)" a c
 
 with_fst     :: (a -> c) -> (a, b) -> (c, b)
-with_fst Cpp :: (a -> c) -> "&($1, $2)" a b
-                         -> "($1, $2)" c b
+with_fst Rust :: (a -> c) -> "&($1, $2)" a b
+                          -> "($1, $2)" c b
 
 -- map functions
 -- zip :: [a] -> [b] -> [(a, b)]
 -- zip xs ys = zip_with tuple xs ys
 
 unzip     :: [(a, b)] -> ([a], [b])
-unzip Cpp :: "&[($1, $2)]" a b -> "(Vec<$1>, Vec<$2>)" a b
+unzip Rust :: "&[($1, $2)]" a b -> "(Vec<$1>, Vec<$2>)" a b
 
 -- keys :: [(a, b)] -> [a]
 -- keys xs = map fst xs
@@ -134,62 +134,62 @@ unzip Cpp :: "&[($1, $2)]" a b -> "(Vec<$1>, Vec<$2>)" a b
 -- vals xs = map snd xs
 
 filter_key     :: (a -> Bool) -> [(a, b)] -> [(a, b)]
-filter_key Cpp :: (a -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b
+filter_key Rust :: (a -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b
 
 
 filter_val     :: (a -> Bool) -> [(a, b)] -> [(a, b)]
-filter_val Cpp :: (b -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b
+filter_val Rust :: (b -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b
 
 -- higher order functions
 zip_with     :: (a -> b -> c) -> [a] -> [b] -> [c]
-zip_with Cpp :: (a -> b -> c) -> "&[$1]" a
-                              -> "&[$1]" b
-                              -> "Vec<$1>" c
+zip_with Rust :: (a -> b -> c) -> "&[$1]" a
+                               -> "&[$1]" b
+                               -> "Vec<$1>" c
 
 fold     :: (b -> a -> b) -> b -> [a] -> b
-fold Cpp :: (b -> a -> b) -> b -> "Vec<$1>" a -> b
+fold Rust :: (b -> a -> b) -> b -> "Vec<$1>" a -> b
 
 map     :: (a -> b) -> [a] -> [b]
-map Cpp :: (a -> b) -> "&[$1]" a -> "Vec<$1>" b
+map Rust :: (a -> b) -> "&[$1]" a -> "Vec<$1>" b
 
 filter     :: (a -> Bool) -> [a] -> [a]
-filter Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
+filter Rust :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
 
 
 -- lists
 head     :: [a] -> a
-head Cpp :: "&[$1]" a -> a
+head Rust :: "&[$1]" a -> a
 
 tail     :: [a] -> [a]
-tail Cpp :: "&[$1]" a -> "&[$1]" a
+tail Rust :: "&[$1]" a -> "&[$1]" a
 
 last     :: [a] -> a
-last Cpp :: "&[$1]" a -> a
+last Rust :: "&[$1]" a -> a
 
 init     :: [a] -> a
-init Cpp :: "&[$1]" a -> "&[$1]" a
+init Rust :: "&[$1]" a -> "&[$1]" a
 
 take     :: [a] -> [a]
-take Cpp :: "&[$1]" a -> "Vec<$1>" a
+take Rust :: "&[$1]" a -> "Vec<$1>" a
 
 drop     :: [a] -> [a]
-drop Cpp :: "&[$1]" a -> "Vec<$1>" a
+drop Rust :: "&[$1]" a -> "Vec<$1>" a
 
 take_while     :: (a -> Bool) -> [a] -> [a]
-take_while Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
+take_while Rust :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
 
 drop_while     :: (a -> Bool) -> [a] -> [a]
-drop_while Cpp :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
+drop_while Rust :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
 
-source Cpp from "src/data.rs"
+source Rust from "src/data.rs"
   ( "morloc_pack_map" as pack_map
   , "morloc_unpack_map" as unpack_map
   )
 
-type Cpp (Map key val) = "std::collections::HashMap<$1, $2>" key val
+type Rust (Map key val) = "std::collections::HashMap<$1, $2>" key val
 
 pack_map     :: pack => ([key], [val]) -> Map key val
-pack_map Cpp :: pack => ([key], [val]) -> "std::collections::HashMap<$1, $2>" key val
+pack_map Rust :: pack => ([key], [val]) -> "std::collections::HashMap<$1, $2>" key val
 
 unpack_map     :: unpack => Map key val -> ([key], [val])
-unpack_map Cpp :: unpack => "std::collections::HashMap<$1, $2>" key val -> ([key], [val])
+unpack_map Rust :: unpack => "std::collections::HashMap<$1, $2>" key val -> ([key], [val])
