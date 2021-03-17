@@ -5,6 +5,8 @@ type Rust Int = "i64"
 type Rust Str = "String"
 type Rust Bool = "bool"
 
+export Map
+
 export Num
 export Int
 export Str
