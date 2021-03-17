@@ -34,7 +34,7 @@ export map
 export head
 export tail
 
-source Rust from "src/lib.rs"
+source Rust from "."
   ( "morloc_id" as id
 
   -- arithmetic
@@ -72,7 +72,19 @@ source Rust from "src/lib.rs"
   , "morloc_drop" as drop
   , "morloc_take_while" as take_while
   , "morloc_drop_while" as drop_while
+
+  -- Map (un)packers for pre-(de)serialization
+  , "morloc_pack_map" as pack_map
+  , "morloc_unpack_map" as unpack_map
   )
+
+type Rust (Map key val) = "std::collections::HashMap<$1, $2>" key val
+
+pack_map     :: pack => ([key], [val]) -> Map key val
+pack_map Rust :: pack => ([key], [val]) -> "std::collections::HashMap<$1, $2>" key val
+
+unpack_map     :: unpack => Map key val -> ([key], [val])
+unpack_map Rust :: unpack => "std::collections::HashMap<$1, $2>" key val -> ([key], [val])
 
 id     :: a -> a
 id Rust :: a -> a
@@ -180,16 +192,3 @@ take_while Rust :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
 
 drop_while     :: (a -> Bool) -> [a] -> [a]
 drop_while Rust :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
-
-source Rust from "src/data.rs"
-  ( "morloc_pack_map" as pack_map
-  , "morloc_unpack_map" as unpack_map
-  )
-
-type Rust (Map key val) = "std::collections::HashMap<$1, $2>" key val
-
-pack_map     :: pack => ([key], [val]) -> Map key val
-pack_map Rust :: pack => ([key], [val]) -> "std::collections::HashMap<$1, $2>" key val
-
-unpack_map     :: unpack => Map key val -> ([key], [val])
-unpack_map Rust :: unpack => "std::collections::HashMap<$1, $2>" key val -> ([key], [val])
