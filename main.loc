@@ -1,13 +1,13 @@
 module rustbase
 
-type Rust Num = "f64"
+type Rust Real = "f64"
 type Rust Int = "i64"
 type Rust Str = "String"
 type Rust Bool = "bool"
 
 export Map
 
-export Num
+export Real
 export Int
 export Str
 export Bool
@@ -93,20 +93,20 @@ id Rust :: a -> a
 
 
 -- arithmetic
--- add  :: (Num a) => a -> a -> a
-add     :: Num -> Num -> Num
+-- add  :: (Real a) => a -> a -> a
+add     :: Real -> Real -> Real
 add Rust :: "f64" -> "f64" -> "f64"
 
--- sub  :: (Num a) => a -> a -> a
-sub     :: Num -> Num -> Num
+-- sub  :: (Real a) => a -> a -> a
+sub     :: Real -> Real -> Real
 sub Rust :: "f64" -> "f64" -> "f64"
 
--- mul  :: (Num a) => a -> a -> a
-mul     :: Num -> Num -> Num
+-- mul  :: (Real a) => a -> a -> a
+mul     :: Real -> Real -> Real
 mul Rust :: "f64" -> "f64" -> "f64"
 
--- div  :: (Num a) => a -> a -> a
-div     :: Num -> Num -> Num
+-- div  :: (Real a) => a -> a -> a
+div     :: Real -> Real -> Real
 div Rust :: "f64" -> "f64" -> "f64"
 
 mod     :: Int -> Int -> Int
