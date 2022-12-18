@@ -24,12 +24,12 @@ export fst
 export snd
 export tupl
 export couple
-export with_sec
-export with_fst
+export withSec
+export withFst
 
 export unzip
 
-export zip_with
+export zipWith
 export fold
 export map
 
@@ -51,16 +51,16 @@ source Rust from "."
   , "morloc_snd" as snd
   , "morloc_tuple" as tuple
   , "morloc_couple" as couple
-  , "with_snd" as with_snd
-  , "with_fst" as with_fst
+  , "with_snd" as withSnd
+  , "with_fst" as withFst
 
   -- map functions
   , "morloc_unzip" as unzip
-  , "morloc_filter_key" as filter_key
-  , "morloc_filter_val" as filter_val
+  , "morloc_filter_key" as filterKey
+  , "morloc_filter_val" as filterVal
 
   -- higher order functions
-  , "morloc_zip_with" as zip_with
+  , "morloc_zip_with" as zipWith
   , "morloc_fold" as fold
   , "morloc_map" as map
   , "morloc_filter" as filter
@@ -72,21 +72,21 @@ source Rust from "."
   , "morloc_init" as init
   , "morloc_take" as take
   , "morloc_drop" as drop
-  , "morloc_take_while" as take_while
-  , "morloc_drop_while" as drop_while
+  , "morloc_take_while" as takeWhile
+  , "morloc_drop_while" as dropWhile
 
   -- Map (un)packers for pre-(de)serialization
-  , "morloc_pack_map" as pack_map
-  , "morloc_unpack_map" as unpack_map
+  , "morloc_pack_map" as packMap
+  , "morloc_unpack_map" as unpackMap
   )
 
 type Rust (Map key val) = "std::collections::HashMap<$1, $2>" key val
 
-pack_map     :: pack => ([key], [val]) -> Map key val
-pack_map Rust :: pack => ([key], [val]) -> "std::collections::HashMap<$1, $2>" key val
+packMap     :: pack => ([key], [val]) -> Map key val
+packMap Rust :: pack => ([key], [val]) -> "std::collections::HashMap<$1, $2>" key val
 
-unpack_map     :: unpack => Map key val -> ([key], [val])
-unpack_map Rust :: unpack => "std::collections::HashMap<$1, $2>" key val -> ([key], [val])
+unpackMap     :: unpack => Map key val -> ([key], [val])
+unpackMap Rust :: unpack => "std::collections::HashMap<$1, $2>" key val -> ([key], [val])
 
 id     :: a -> a
 id Rust :: a -> a
@@ -126,17 +126,17 @@ tuple Rust :: a -> b -> "($1, $2)" a b
 couple     :: (a -> b) -> a -> (b, a)
 couple Rust :: (a -> b) -> a -> "($1, $2)" b a
 
-with_snd     :: (b -> c) -> (a, b) -> (a, c)
-with_snd Rust :: (b -> c) -> "&($1, $2)" a b
+withSnd     :: (b -> c) -> (a, b) -> (a, c)
+withSnd Rust :: (b -> c) -> "&($1, $2)" a b
                           -> "($1, $2)" a c
 
-with_fst     :: (a -> c) -> (a, b) -> (c, b)
-with_fst Rust :: (a -> c) -> "&($1, $2)" a b
+withFst     :: (a -> c) -> (a, b) -> (c, b)
+withFst Rust :: (a -> c) -> "&($1, $2)" a b
                           -> "($1, $2)" c b
 
 -- map functions
 -- zip :: [a] -> [b] -> [(a, b)]
--- zip xs ys = zip_with tuple xs ys
+-- zip xs ys = zipWith tuple xs ys
 
 unzip     :: [(a, b)] -> ([a], [b])
 unzip Rust :: "&[($1, $2)]" a b -> "(Vec<$1>, Vec<$2>)" a b
@@ -147,16 +147,16 @@ unzip Rust :: "&[($1, $2)]" a b -> "(Vec<$1>, Vec<$2>)" a b
 -- vals :: [(a, b)] -> [b]
 -- vals xs = map snd xs
 
-filter_key     :: (a -> Bool) -> [(a, b)] -> [(a, b)]
-filter_key Rust :: (a -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b
+filterKey     :: (a -> Bool) -> [(a, b)] -> [(a, b)]
+filterKey Rust :: (a -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b
 
 
-filter_val     :: (a -> Bool) -> [(a, b)] -> [(a, b)]
-filter_val Rust :: (b -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b
+filterVal     :: (a -> Bool) -> [(a, b)] -> [(a, b)]
+filterVal Rust :: (b -> "bool") -> "&[($1, $2)]" a b -> "Vec<($1, $2)>" a b
 
 -- higher order functions
-zip_with     :: (a -> b -> c) -> [a] -> [b] -> [c]
-zip_with Rust :: (a -> b -> c) -> "&[$1]" a
+zipWith     :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith Rust :: (a -> b -> c) -> "&[$1]" a
                                -> "&[$1]" b
                                -> "Vec<$1>" c
 
@@ -189,8 +189,8 @@ take Rust :: "&[$1]" a -> "Vec<$1>" a
 drop     :: [a] -> [a]
 drop Rust :: "&[$1]" a -> "Vec<$1>" a
 
-take_while     :: (a -> Bool) -> [a] -> [a]
-take_while Rust :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
+takeWhile     :: (a -> Bool) -> [a] -> [a]
+takeWhile Rust :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
 
-drop_while     :: (a -> Bool) -> [a] -> [a]
-drop_while Rust :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
+dropWhile     :: (a -> Bool) -> [a] -> [a]
+dropWhile Rust :: (a -> "bool") -> "&[$1]" a -> "Vec<$1>" a
