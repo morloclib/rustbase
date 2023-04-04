@@ -1,40 +1,10 @@
-module rustbase
+module rustbase (*)
 
 type Rust Real = "f64"
 type Rust Int = "i64"
 type Rust Str = "String"
 type Rust Bool = "bool"
 
-export Map
-
-export Real
-export Int
-export Str
-export Bool
-
-export id
-
-export add
-export sub
-export mul
-export div
-export mod
-
-export fst
-export snd
-export tupl
-export couple
-export withSec
-export withFst
-
-export unzip
-
-export zipWith
-export fold
-export map
-
-export head
-export tail
 
 source Rust from "."
   ( "morloc_id" as id
