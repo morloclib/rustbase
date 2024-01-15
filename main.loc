@@ -1,9 +1,9 @@
 module rustbase (*)
 
-type Rust Real = "f64"
-type Rust Int = "i64"
-type Rust Str = "String"
-type Rust Bool = "bool"
+type Rust => Real = "f64"
+type Rust => Int = "i64"
+type Rust => Str = "String"
+type Rust => Bool = "bool"
 
 
 source Rust from "."
@@ -50,7 +50,7 @@ source Rust from "."
   , "morloc_unpack_map" as unpackMap
   )
 
-type Rust (Map key val) = "std::collections::HashMap<$1, $2>" key val
+type Rust => (Map key val) = "std::collections::HashMap<$1, $2>" key val
 
 packMap     :: pack => ([key], [val]) -> Map key val
 packMap Rust :: pack => ([key], [val]) -> "std::collections::HashMap<$1, $2>" key val
